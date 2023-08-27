@@ -27,7 +27,9 @@ const initialState = {
           }
         },
         Addrole:(state,action) =>{
-          state.Role = action.payload;
+          if(state.Isauthentication){
+             state.Role = action.payload;
+          }
         },
         RemoveJwt:(state) =>{
           console.log("removeJwt");

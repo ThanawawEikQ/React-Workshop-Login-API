@@ -23,33 +23,26 @@ const Login = () => {
       const tokenParts = token.split('.');
       if (tokenParts.length === 3) {
         const payload = JSON.parse(atob(tokenParts[1]));
-        //console.log('Decoded Payload:', payload);
-        const expirationDate = new Date(payload.exp * 1000);
+        //const expirationDate = new Date(payload.exp * 1000);
         const userRole = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         dispatch(Addrole(userRole));
-        //console.log('Role:', userRole);
-        if(expirationDate > Date.now()){
-          return true;
-        }
-      } else {
-        console.error('Invalid JWT format');
       }
     }catch (error){
-      return false;
+      console.log(error);
     }
   };
 
 
 
-  // useEffect(() =>{
-  //   const token = localStorage.getItem('jwtToken');
-  //   if (verifyToken(token)){
-  //     dispatch(AddJwt(token));
-  //     //console.log("token: ",token);
-  //   }else{
-  //     dispatch(AddJwt(""));
-  //   }
-  // },[])
+   useEffect(() =>{
+     const token = localStorage.getItem('jwtToken');
+     if (verifyToken(token)){
+       dispatch(AddJwt(token));
+       //console.log("token: ",token);
+     }else{
+      dispatch(AddJwt(""));
+     }
+   },[])
 
 
   const handleLogin = async (event)=>{
@@ -67,6 +60,7 @@ const Login = () => {
         //localStorage.setItem('jwtToken', token);
         dispatch(AddJwt(token));
         console.log("Login",useStore.authorize.username);
+        verifyToken(token); // add role
       }else{
         dispatch(RemoveJwt());
         Setusername('');

@@ -7,10 +7,7 @@ const Login = () => {
   const auth= useSelector((state) =>({...state}));
   const dispatch = useDispatch();
 
-  const handleLogout =()=>{
-   ;
-    console.log("removeJwt");
-  }
+
   return (
     <nav>
         <NavLink end to="/" ><p>Login</p></NavLink>
@@ -22,7 +19,11 @@ const Login = () => {
          </> 
         :  <></>
       }
-    </nav>
+        {(auth.authorize.Isauthentication) 
+         ?<span>{auth.authorize.Role}</span>
+         : <span>Guest</span>
+        }
+   </nav>
   )
 }
 
